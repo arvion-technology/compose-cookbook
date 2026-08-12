@@ -1,0 +1,26 @@
+{
+  "name": "compose-cookbook",
+  "version": "1.0.0",
+  "description": "Copy-paste Docker Compose stacks that work: Postgres with backups, Redis, MinIO, Mailpit, observability, queues and reverse proxy \u2014 each with healthchecks, secrets and docs.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "author": "Arvion Technologies <hello@arviontech.net> (https://arviontech.net)",
+  "homepage": "https://arvion-technology.github.io/labs/demos/compose-cookbook/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arvion-technology/compose-cookbook.git"
+  },
+  "scripts": {
+    "test": "node --test test/",
+    "demo": "node scripts/serve.mjs . 4173",
+    "shot": "node scripts/shot.mjs 1440 900 docs/screenshot.png",
+    "shot:2": "node scripts/shot.mjs 1440 900 docs/screenshot-2.png '#grafana-stack'",
+    "verify": "node --test test/ && node scripts/serve-check.mjs && bash scripts/validate.sh",
+    "sync-demo": "node scripts/sync-demo.mjs",
+    "validate": "bash scripts/validate.sh"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
