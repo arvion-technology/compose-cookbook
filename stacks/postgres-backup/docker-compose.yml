@@ -1,0 +1,61 @@
+# Postgres plus a scheduled pg_dump sidecar. Both containers share the database
+# network; only the backup volume is mounted, and it is a named volume so the
+# dumps survive a `docker compose down`.
+name: arvion-postgres-backup
+
+services:
+  postgres:
+    image: postgres:16.4-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    mem_limit: 512m
+    cpus: 1.0
+    networks:
+      - database
+
+  backup:
+    image: prodrigestivill/postgres-backup-local:16-alpine
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+      SCHEDULE: "@daily"
+      BACKUP_KEEP_DAYS: ${BACKUP_KEEP_DAYS:-7}
+      BACKUP_KEEP_WEEKS: 4
+      HEALTHCHECK_PORT: 8080
+    volumes:
+      - backups:/backups
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    mem_limit: 256m
+    cpus: 0.5
+    networks:
+      - database
+
+volumes:
+  postgres-data:
+  backups:
+
+networks:
+  database:
+    driver: bridge
