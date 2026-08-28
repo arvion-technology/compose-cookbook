@@ -1,0 +1,33 @@
+# RabbitMQ with the management plugin. AMQP stays internal; the management UI is
+# bound to localhost for debugging.
+name: arvion-rabbitmq
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.13.7-management-alpine
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-app}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-change-me}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-app}
+    ports:
+      - "127.0.0.1:${RABBITMQ_MGMT_PORT:-15672}:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    mem_limit: 384m
+    cpus: 1.0
+    networks:
+      - messaging
+
+volumes:
+  rabbitmq-data:
+
+networks:
+  messaging:
+    driver: bridge
