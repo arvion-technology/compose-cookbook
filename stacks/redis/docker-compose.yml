@@ -1,0 +1,39 @@
+# Redis with append-only persistence and a password. No host port: workers and
+# apps join the `cache` network instead.
+name: arvion-redis
+
+services:
+  redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --appendfsync
+      - everysec
+      - --requirepass
+      - ${REDIS_PASSWORD:-change-me}
+      - --maxmemory
+      - ${REDIS_MAXMEMORY:-256mb}
+      - --maxmemory-policy
+      - allkeys-lru
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$${REDIS_PASSWORD}\" ping | grep PONG"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    mem_limit: 384m
+    cpus: 0.75
+    networks:
+      - cache
+
+volumes:
+  redis-data:
+
+networks:
+  cache:
+    driver: bridge
