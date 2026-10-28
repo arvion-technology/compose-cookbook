@@ -12,11 +12,11 @@
     "url": "git+https://github.com/arvion-technology/compose-cookbook.git"
   },
   "scripts": {
-    "test": "node --test test/",
+    "test": "node --test",
     "demo": "node scripts/serve.mjs . 4173",
     "shot": "node scripts/shot.mjs 1440 900 docs/screenshot.png",
     "shot:2": "node scripts/shot.mjs 1440 900 docs/screenshot-2.png '#grafana-stack'",
-    "verify": "node --test test/ && node scripts/serve-check.mjs && bash scripts/validate.sh",
+    "verify": "node --test && node scripts/serve-check.mjs && bash scripts/validate.sh",
     "sync-demo": "node scripts/sync-demo.mjs",
     "validate": "bash scripts/validate.sh"
   },
