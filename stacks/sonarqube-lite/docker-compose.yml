@@ -1,6 +1,6 @@
 # SonarQube Community with its own Postgres. The UI is published on localhost;
 # the database stays internal. Elasticsearch inside SonarQube needs a higher
-# vm.max_map_count on the host — see the README.
+# vm.max_map_count on the host, see the README.
 name: arvion-sonarqube-lite
 
 services:

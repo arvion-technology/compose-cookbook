@@ -93,5 +93,5 @@ test("summary extraction takes the first paragraph after the heading", () => {
 test("demo/stacks-data.js matches the compose files on disk", () => {
   const expected = buildCatalog(files);
   assert.deepEqual(JSON.parse(JSON.stringify(STACKS)), JSON.parse(JSON.stringify(expected)),
-    "demo data is stale — run `npm run sync-demo`");
+    "demo data is stale, run `npm run sync-demo`");
 });

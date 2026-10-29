@@ -19,12 +19,12 @@ node scripts/validate.mjs "$@"
 
 if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then
   echo
-  echo "docker daemon found — running 'docker compose config' on every stack"
+  echo "docker daemon found, running 'docker compose config' on every stack"
   for stack in stacks/*/; do
     docker compose -f "${stack}docker-compose.yml" config >/dev/null
     echo "  ${stack}  config ok"
   done
 else
   echo
-  echo "docker daemon not available — static validation only (this is the CI path)"
+  echo "docker daemon not available, static validation only (this is the CI path)"
 fi

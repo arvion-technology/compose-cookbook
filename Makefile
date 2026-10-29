@@ -1,4 +1,4 @@
-# Compose Cookbook — one target per operation, stack selected with STACK=<slug>.
+# Compose Cookbook, one target per operation, stack selected with STACK=<slug>.
 SHELL := /bin/bash
 STACK ?= postgres
 

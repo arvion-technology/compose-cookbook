@@ -2,7 +2,7 @@
 <img src="docs/demo.gif" alt="Compose Cookbook catalog with validation panel and copyable YAML" width="100%" />
 </div>
 
-<sub>Recorded from the live demo — <a href="docs/demo.mp4">MP4</a> · <a href="docs/screenshot.png">static frame</a></sub>
+<sub>Recorded from the live demo, <a href="docs/demo.mp4">MP4</a> · <a href="docs/screenshot.png">static frame</a></sub>
 
 # Compose Cookbook
 
@@ -19,7 +19,7 @@ with a `.env.example` and a README.
 Copying a compose snippet from a blog post is how a dev database ends up on
 `0.0.0.0:5432`. This repository is the version that was reviewed: images are
 pinned, services have healthchecks, stateful data lives in named volumes, bind
-mounts are read-only, and a linter checks those properties on every run — without
+mounts are read-only, and a linter checks those properties on every run, without
 needing a Docker daemon.
 
 The catalog demo is generated from the compose files themselves. The validation
@@ -157,12 +157,12 @@ npm test        # 24 tests
 make validate   # linter over all twelve stacks
 ```
 
-- `test/yaml.test.js` — nested mappings, sequences, flow arrays, comments,
+- `test/yaml.test.js`: nested mappings, sequences, flow arrays, comments,
   quoted strings, null values, invalid indentation and tabs.
-- `test/lint.test.js` — one test per rule, from unpinned images and exposed
+- `test/lint.test.js`: one test per rule, from unpinned images and exposed
   database ports to read-write mounts, undeclared volumes and undocumented
   variables.
-- `test/stacks.test.js` — all twelve stacks present and documented, zero lint
+- `test/stacks.test.js`: all twelve stacks present and documented, zero lint
   errors or warnings, every service pinned and healthchecked, no database ports,
   catalog derivation, and the generated demo data matching the files on disk.
 

@@ -1,6 +1,6 @@
 # Kafka (lite)
 
-A single-node Kafka broker using KRaft — no ZooKeeper container, one process. It
+A single-node Kafka broker using KRaft, no ZooKeeper container, one process. It
 does not publish a host port, so producers and consumers join the `messaging`
 network.
 
